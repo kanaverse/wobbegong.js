@@ -1,0 +1,30 @@
+{
+    "type": "module",
+    "main": "src/index.js",
+    "name": "wobbegong",
+    "description": "Retrieving parts of a SummarizedExperiment via HTTP range requests.",
+    "license": "MIT",
+    "version": "0.1.0",
+    "keywords": [
+        "single-cell",
+        "scRNA-seq",
+        "bioinformatics",
+        "Bioconductor"
+    ],
+    "homepage": "https://github.com/kanaverse/wobbegong.js",
+    "repository": "github:kanaverse/wobbegong.js",
+    "url": "https://github.com/kanaverse/wobbegong.js/issues",
+    "author": {
+        "name": "Aaron Lun",
+        "email": "infinite.monkeys.with.keyboards@gmail.com"
+    },
+    "scripts": {
+        "test": "NODE_OPTIONS='--experimental-vm-modules' npx jest",
+        "jsdoc": "npx jsdoc js README.md -d docs/built -c docs/jsdoc.config.json"
+    },
+    "devDependencies": {
+        "docdash": "^1.2.0",
+        "jsdoc": "^3.6.11",
+        "jest": "^29.7.0"
+    }
+}
