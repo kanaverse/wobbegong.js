@@ -37,4 +37,36 @@ test("SummarizedExperiment works as expected", async () => {
     expect(last_assay.sparse()).toBe(true);
     expect(last_assay.numberOfRows()).toBe(50);
     expect(last_assay.numberOfColumns()).toBe(20);
+
+    // Checking the reduced dimensions.
+    expect(my_se.hasReducedDimension()).toBe(true);
+    expect(my_se.reducedDimensionNames()).toEqual(["TSNE", "UMAP"]);
+
+    let first_rd = await my_se.reducedDimension(0);
+    expect(first_rd.numberOfRows()).toBe(20);
+    expect(first_rd.numberOfColumns()).toBe(4);
+
+    let last_rd = await my_se.reducedDimension(1);
+    expect(last_rd.numberOfRows()).toBe(20);
+    expect(last_rd.numberOfColumns()).toBe(2);
+})
+
+test("SummarizedExperiment works without any details", async () => {
+    const path = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-simple");
+    const summary = JSON.parse(fs.readFileSync(p.join(path, "summary.json")));
+    const my_se = new se.SummarizedExperiment(summary, path, localFetchJson, localFetchRange);
+
+    // Checking the dimensions.
+    expect(my_se.numberOfRows()).toEqual(50);
+    expect(my_se.numberOfColumns()).toEqual(20);
+
+    // Checking the row/coldata.
+    expect(my_se.hasRowData()).toBe(false);
+    expect(my_se.hasColumnData()).toBe(false);
+    expect(my_se.hasReducedDimension()).toBe(false);
+
+    expect(await my_se.rowData()).toBeNull();
+    expect(await my_se.columnData()).toBeNull();
+    expect(await my_se.reducedDimensionNames()).toBeNull();
+    expect(await my_se.reducedDimension(0)).toBeNull();
 })

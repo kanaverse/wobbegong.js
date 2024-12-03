@@ -1,5 +1,6 @@
 import { Matrix } from "./Matrix.js";
 import { DataFrame } from "./DataFrame.js";
+import { ReducedDimensionResult } from "./ReducedDimensionResult.js";
 
 /**
  * An interface to the **wobbegong** representation of a SummarizedExperiment instance.
@@ -108,15 +109,32 @@ export class SummarizedExperiment {
     /**
      * @return {boolean} Whether reduced dimensions are available. 
      */
-    hasReducedDimensions() {
-        return "reduced_dimensions" in this.#summary;
+    hasReducedDimension() {
+        return "reduced_dimension_names" in this.#summary;
     }
 
-//    reducedDimensionNames() {
-//        return this.#summary.assay_names;
-//    }
-//
-//    async reducedDimension(i) {
-//
-//    }
+    /**
+     * @return {?Array} Names of the reduced dimensions.
+     * Alternatively `null`, if no reduced dimensions are available.
+     */
+    reducedDimensionNames() {
+        if (!this.hasReducedDimension()) {
+            return null;
+        }
+        return this.#summary.reduced_dimension_names;
+    }
+
+    /**
+     * @param {number|string} i - Index or name of the reduced dimension result to retrieve.
+     * @return {?ReducedDimensionResult} A {@link ReducedDimensionResult} instance representing the reduced dimension result for `i`,
+     * or `null` if no reduced dimensions are avilable.
+     */
+    async reducedDimension(i) {
+        if (!this.hasReducedDimension()) {
+            return null;
+        }
+        let path = this.#path + "/reduced_dimensions/" + String(i); 
+        const summary = await this.#fetch_json(path + "/summary.json");
+        return new ReducedDimensionResult(summary, path, this.#fetch_range);
+    }
 }

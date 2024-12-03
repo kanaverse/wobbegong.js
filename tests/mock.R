@@ -22,3 +22,14 @@ library(wobbegong)
 path <- "mock-sce"
 unlink(path, recursive=TRUE)
 wobbegongify(sce, path)
+
+{
+    simple <- as(sce, "SummarizedExperiment")
+    dimnames(simple) <- list(NULL, NULL)
+    rowData(simple) <- rowData(simple)[,0]
+    colData(simple) <- colData(simple)[,0]
+
+    path <- "mock-simple"
+    unlink(path, recursive=TRUE)
+    wobbegongify(simple, path)
+}
