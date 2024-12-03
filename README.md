@@ -1,12 +1,22 @@
 # Access a wobbegong-formatted SummarizedExperiment
 
+![Unit tests](https://github.com/kanaverse/wobbegong.js/actions/workflows/run-tests.yaml/badge.svg)
+![Documentation](https://github.com/kanaverse/wobbegong.js/actions/workflows/build-docs.yaml/badge.svg)
+[![NPM](https://img.shields.io/npm/v/wobbegong.svg)](https://npmjs.org/package/wobbegong)
+
 ## Overview
 
-The [**wobbegong**](https://github.com/kanaverse/wobbegong-R) specification supports the retrieval parts of a SummarizedExperiment object with HTTP range requests. 
-This is intended for single-cell web applications to inspect assay data and reduced dimension results without the need for custom server logic. 
-To this end, the **wobbegong.js** library provides a Javascript interface that facilitates the development of such applications.
+The [**wobbegong**](https://github.com/kanaverse/wobbegong-R) specification supports the retrieval of parts of a SummarizedExperiment object via HTTP range requests on static files. 
+This allows web applications to fetch and visualize assay data, reduced dimension results, etc. without the need to download the entire object or implement custom server logic. 
+The **wobbegong.js** library provides an easy-to-use Javascript interface that handles the process of decoding the ranges from **wobbegong**-formatted files.
 
 ## Quick start
+
+First, we install the **wobbegong** library from [npm](https://npmjs.com/package/wobbegong) via the usual method:
+
+```bash
+npm install wobbegong
+```
 
 Developers are expected to know how to fetch content from their static file server.
 For example, we could define the relevant fetching functions as below:
@@ -33,7 +43,8 @@ const fetch_range = async (path, start, end) => {
     if (!res.ok) {
         throw new Error("oops, failed to retrieve range from '" + path + "' (" + String(res.status) + ")");
     }
-    return res.bytes();
+    let output = await res.bytes();
+    return output.slice(0, end - start); // trim off any excess junk
 };
 ```
 
