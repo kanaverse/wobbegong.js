@@ -12,7 +12,10 @@
         "Bioconductor"
     ],
     "homepage": "https://github.com/kanaverse/wobbegong.js",
-    "repository": "github:kanaverse/wobbegong.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kanaverse/wobbegong.js.git"
+    },
     "url": "https://github.com/kanaverse/wobbegong.js/issues",
     "author": {
         "name": "Aaron Lun",
