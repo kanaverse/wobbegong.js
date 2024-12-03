@@ -19,6 +19,7 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 22
+        registry-url: 'https://registry.npmjs.org'
 
     # We only run the remaining (remote-touching) steps if the version has actually changed.
     - name: Extract package versions
