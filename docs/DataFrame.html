@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>DataFrame - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/kanaverse/wobbegong.js" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Classes</h3><ul><li><a href="DataFrame.html">DataFrame</a><ul class='methods'><li data-type='method' style='display: none;'><a href="DataFrame.html#column">column</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#columnNames">columnNames</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#hasRowNames">hasRowNames</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#rowNames">rowNames</a></li></ul></li><li><a href="Matrix.html">Matrix</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Matrix.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#row">row</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#sparse">sparse</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#statistic">statistic</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#statisticNames">statisticNames</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#type">type</a></li></ul></li><li><a href="ReducedDimensionResult.html">ReducedDimensionResult</a><ul class='methods'><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#column">column</a></li><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#type">type</a></li></ul></li><li><a href="SummarizedExperiment.html">SummarizedExperiment</a><ul class='methods'><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#assay">assay</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#assayNames">assayNames</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#columnData">columnData</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#hasColumnData">hasColumnData</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#hasReducedDimension">hasReducedDimension</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#hasRowData">hasRowData</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#reducedDimension">reducedDimension</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#reducedDimensionNames">reducedDimensionNames</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#rowData">rowData</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#decode">decode</a></li><li><a href="global.html#decodeBooleans">decodeBooleans</a></li><li><a href="global.html#decodeDeltaIndices">decodeDeltaIndices</a></li><li><a href="global.html#decodeDoubles">decodeDoubles</a></li><li><a href="global.html#decodeIntegers">decodeIntegers</a></li><li><a href="global.html#decodeStrings">decodeStrings</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">DataFrame</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        
+            DataFrame
+        
+        </h2>
+        
+            <div class="class-description usertext"><p>An interface to the <strong>wobbegong</strong> representation of a DataFrame instance.
+This should contain columns of integer, double, string or boolean arrays of the same length.
+It may also contain row names.</p></div>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="DataFrame"><span class="type-signature"></span>new DataFrame<span class="signature">(summary, path, fetch_range)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="DataFrame.js.html">DataFrame.js</a>, <a href="DataFrame.js.html#line9">line 9</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>summary</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A summary of the DataFrame contents, according to the <strong>wobbegong</strong> specifications.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>path</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Path to the DataFrame directory.
+This may be a relative or absolute path, depending on how the files are hosted.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fetch_range</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A function that accepts <code>file</code> (a path to a file inside <code>path</code>), <code>start</code> and <code>end</code>.
+It should retrieve bytes from <code>file</code> in the interval <code>[start, end)</code> and return a Uint8Array containing those bytes.
+It may also return a promise that resolves to such a Uint8Array.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="DataFrame.html">DataFrame</a></dt>
+            <dd></dd>
+        </dl>
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="column"><span class="type-signature type-signature-async">(async) </span>column<span class="signature">(i, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {object|Array|Int32Array|Float64Array}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="DataFrame.js.html">DataFrame.js</a>, <a href="DataFrame.js.html#line98">line 98</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>i</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+|
+
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>Index or name of the column to retrieve.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>{}</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>Further options.</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>Whether to include the type of the column.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>missing</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>"null"</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>How to handle missing values for integer arrays, see the corresponding option in <a href="global.html#decodeIntegers"><code>decodeIntegers</code></a>.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>If <code>type = false</code>, an array containing the contents of column <code>i</code>.
+If <code>type = true</code>, this is instead an object containing <code>type</code>, a string with the column type; and <code>value</code>, an array with the column contents.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+|
+
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">Int32Array</span>
+|
+
+<span class="param-type">Float64Array</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="columnNames"><span class="type-signature"></span>columnNames<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="DataFrame.js.html">DataFrame.js</a>, <a href="DataFrame.js.html#line71">line 71</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>{}</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>Further options.</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>types</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>Whether to include the types of the columns.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Names of the columns.
+If <code>types = true</code>, each entry is an object specifying the <code>name</code> and <code>type</code> of the column;
+otherwise, each entry is a string.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="hasRowNames"><span class="type-signature"></span>hasRowNames<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="DataFrame.js.html">DataFrame.js</a>, <a href="DataFrame.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Whether this DataFrame has row names.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="numberOfColumns"><span class="type-signature"></span>numberOfColumns<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="DataFrame.js.html">DataFrame.js</a>, <a href="DataFrame.js.html#line47">line 47</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Number of columns.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="numberOfRows"><span class="type-signature"></span>numberOfRows<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="DataFrame.js.html">DataFrame.js</a>, <a href="DataFrame.js.html#line40">line 40</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Number of rows.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="rowNames"><span class="type-signature type-signature-async">(async) </span>rowNames<span class="signature">()</span><span class="type-signature"> &rarr; (nullable) {Array}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="DataFrame.js.html">DataFrame.js</a>, <a href="DataFrame.js.html#line54">line 54</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Names of the rows, or <code>null</code> if there are no row names.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Tue Dec 03 2024 17:28:33 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

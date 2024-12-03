@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Home - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/kanaverse/wobbegong.js" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Classes</h3><ul><li><a href="DataFrame.html">DataFrame</a><ul class='methods'><li data-type='method' style='display: none;'><a href="DataFrame.html#column">column</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#columnNames">columnNames</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#hasRowNames">hasRowNames</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#rowNames">rowNames</a></li></ul></li><li><a href="Matrix.html">Matrix</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Matrix.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#row">row</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#sparse">sparse</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#statistic">statistic</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#statisticNames">statisticNames</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#type">type</a></li></ul></li><li><a href="ReducedDimensionResult.html">ReducedDimensionResult</a><ul class='methods'><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#column">column</a></li><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#type">type</a></li></ul></li><li><a href="SummarizedExperiment.html">SummarizedExperiment</a><ul class='methods'><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#assay">assay</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#assayNames">assayNames</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#columnData">columnData</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#hasColumnData">hasColumnData</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#hasReducedDimension">hasReducedDimension</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#hasRowData">hasRowData</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#reducedDimension">reducedDimension</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#reducedDimensionNames">reducedDimensionNames</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#rowData">rowData</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#decode">decode</a></li><li><a href="global.html#decodeBooleans">decodeBooleans</a></li><li><a href="global.html#decodeDeltaIndices">decodeDeltaIndices</a></li><li><a href="global.html#decodeDoubles">decodeDoubles</a></li><li><a href="global.html#decodeIntegers">decodeIntegers</a></li><li><a href="global.html#decodeStrings">decodeStrings</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+
+    
+
+
+
+    
+
+
+    <section class="package">
+        <h3> </h3>		
+    </section>
+
+
+
+
+
+
+
+
+
+    
+
+
+
+    <section class="readme usertext">
+        <article><h1>Access a wobbegong-formatted SummarizedExperiment</h1>
+<h2>Overview</h2>
+<p>The <a href="https://github.com/kanaverse/wobbegong-R"><strong>wobbegong</strong></a> specification supports the retrieval parts of a SummarizedExperiment object with HTTP range requests.
+This is intended for single-cell web applications to inspect assay data and reduced dimension results without the need for custom server logic.
+To this end, the <strong>wobbegong.js</strong> library provides a Javascript interface that facilitates the development of such applications.</p>
+<h2>Quick start</h2>
+<p>Developers are expected to know how to fetch content from their static file server.
+For example, we could define the relevant fetching functions as below:</p>
+<pre class="prettyprint source lang-js"><code>const url = &quot;https://my.wobbegong.host.com&quot;;
+
+// Define a method to retrieve JSON from the wobbegong-hosted files.
+// This typically uses fetch() on a web browser:
+const fetch_json = async (path) => {
+    const res = await fetch(url+ &quot;/&quot; + path);
+    if (!res.ok) {
+        throw new Error(&quot;oops, failed to retrieve '&quot; + path + &quot;' (&quot; + String(res.status) + &quot;)&quot;);
+    }
+    return res.json();
+};
+
+// Define a method to do range requests on wobbegong-hosted files:
+const fetch_range = async (path, start, end) => {
+    const res = await fetch(
+        url + &quot;/&quot; + path,
+        { headers: { Range: &quot;bytes=&quot; + String(start) + &quot;-&quot; + String(end-1) } }
+    );
+    if (!res.ok) {
+        throw new Error(&quot;oops, failed to retrieve range from '&quot; + path + &quot;' (&quot; + String(res.status) + &quot;)&quot;);
+    }
+    return res.bytes();
+};
+</code></pre>
+<p>Once that's done, we use the <strong>wobbegong.js</strong> library to set up our interface to the SummarizedExperiment:</p>
+<pre class="prettyprint source lang-js"><code>import * as wob from &quot;wobbegong&quot;;
+const se_summary = await fetch_json(&quot;my_dataset/summary.json&quot;);
+const se = new wob.SummarizedExperiment(se_summary, &quot;my_dataset&quot;, fetch_json, fetch_range)
+se.numberOfRows();
+se.numberOfColumns();
+</code></pre>
+<h2>Retrieving row/column data</h2>
+<p>Row data will be returned as a DataFrame, or <code>null</code> if no row data is available.</p>
+<pre class="prettyprint source lang-js"><code>se.hasRowData(); // indicates whether row data is available
+const rowd = await se.rowData(); // null if the above is false.
+rowd.numberOfRows();
+rowd.columnNames();
+</code></pre>
+<p>Each column of the DataFrame can be retrieved by index or name, returning an array of the same length.</p>
+<pre class="prettyprint source lang-js"><code>await rowd.column(0); // first column
+await rowd.column(&quot;whee&quot;); // can also access by name
+</code></pre>
+<p>We can also check if there are any row names on the DataFrame.
+If present, this returns an array of strings.</p>
+<pre class="prettyprint source lang-js"><code>rowd.hasRowNames();
+await rowd.rowNames(); // null if no row names are present
+</code></pre>
+<p>The same applies to the column data.</p>
+<pre class="prettyprint source lang-js"><code>const cold = await se.columnData();
+cold.numberOfRows();
+cold.columnNames();
+await cold.column(0);
+await cold.column(&quot;whee&quot;);
+</code></pre>
+<h2>Retrieving assays</h2>
+<p>We can check the available assays in the SummarizedExperiment:</p>
+<pre class="prettyprint source lang-js"><code>se.assayNames();
+</code></pre>
+<p>And then retrieve each matrix by name or index:</p>
+<pre class="prettyprint source lang-js"><code>const first_assay = await se.assay(0);
+const log_assay = await se.assay('logcounts');
+</code></pre>
+<p>Each assay matrix from the same SummarizedExperiment will have the same number of rows and columns, but may have different types or sparsity.</p>
+<pre class="prettyprint source lang-js"><code>log_assay.numberOfRows();
+log_assay.numberOfColumns();
+log_assay.type(); // usually one of integer, double or boolean
+log_assay.sparse();
+</code></pre>
+<p>The only way to extract data from a matrix is by row, which optimizes for per-gene access.
+For dense matrices, this returns an array of length equal to the number of columns;
+for sparse matrices, this returns an object with <code>value</code> and <code>index</code> properties that specify the value and column index, respectively, of each structural non-zero element.
+Developers can forcibly return a dense array in all situations by setting <code>asDense: true</code>.</p>
+<pre class="prettyprint source lang-js"><code>const vals = await log_assay.row(0);
+const vals2 = await log_assay.row(0, { asDense: true }); // always returns dense array
+</code></pre>
+<p>Developers may also like to inspect pre-computed statistics such as the column sums or the number of detected genes in each column.
+In particular, the column sums can be used to perform library size normalization of count data prior to visualization.</p>
+<pre class="prettyprint source lang-js"><code>log_assay.statisticNames(); // see available stats.
+const colsums = await log_assay.statistic(&quot;column_sum&quot;);
+</code></pre>
+<h2>Retrieving reduced dimensions</h2>
+<p>As with the assays, we can check the available reduced dimension results in the SummarizedExperiment:</p>
+<pre class="prettyprint source lang-js"><code>se.reducedDimensionNames();
+</code></pre>
+<p>And then retrieve each result by name or index:</p>
+<pre class="prettyprint source lang-js"><code>const first_reddim = await se.reducedDimension(0);
+const tsne = await se.reducedDimension('TSNE');
+</code></pre>
+<p>We can examine various properties of each result:</p>
+<pre class="prettyprint source lang-js"><code>tsne.numberOfRows();
+tsne.numberOfColumns();
+tsne.type(); // typically double
+</code></pre>
+<p>Each column can then be extracted for visualization.</p>
+<pre class="prettyprint source lang-js"><code>const tsne_x = await tsne.column(0);
+const tsne_y = await tsne.column(1);
+</code></pre></article>
+    </section>
+
+
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Tue Dec 03 2024 17:28:33 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

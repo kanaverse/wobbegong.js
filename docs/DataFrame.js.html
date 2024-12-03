@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>DataFrame.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/kanaverse/wobbegong.js" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Classes</h3><ul><li><a href="DataFrame.html">DataFrame</a><ul class='methods'><li data-type='method' style='display: none;'><a href="DataFrame.html#column">column</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#columnNames">columnNames</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#hasRowNames">hasRowNames</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#rowNames">rowNames</a></li></ul></li><li><a href="Matrix.html">Matrix</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Matrix.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#row">row</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#sparse">sparse</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#statistic">statistic</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#statisticNames">statisticNames</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#type">type</a></li></ul></li><li><a href="ReducedDimensionResult.html">ReducedDimensionResult</a><ul class='methods'><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#column">column</a></li><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#type">type</a></li></ul></li><li><a href="SummarizedExperiment.html">SummarizedExperiment</a><ul class='methods'><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#assay">assay</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#assayNames">assayNames</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#columnData">columnData</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#hasColumnData">hasColumnData</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#hasReducedDimension">hasReducedDimension</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#hasRowData">hasRowData</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#reducedDimension">reducedDimension</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#reducedDimensionNames">reducedDimensionNames</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#rowData">rowData</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#decode">decode</a></li><li><a href="global.html#decodeBooleans">decodeBooleans</a></li><li><a href="global.html#decodeDeltaIndices">decodeDeltaIndices</a></li><li><a href="global.html#decodeDoubles">decodeDoubles</a></li><li><a href="global.html#decodeIntegers">decodeIntegers</a></li><li><a href="global.html#decodeStrings">decodeStrings</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">DataFrame.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as dec from "./decode.js";
+import { computeByteRanges } from "./computeByteRanges.js";
+
+/**
+ * An interface to the **wobbegong** representation of a DataFrame instance.
+ * This should contain columns of integer, double, string or boolean arrays of the same length.
+ * It may also contain row names.
+ */
+export class DataFrame {
+    #summary;
+    #path;
+    #fetch;
+    #bytes;
+
+    /**
+     * @param {object} summary - A summary of the DataFrame contents, according to the **wobbegong** specifications.
+     * @param {string} path - Path to the DataFrame directory.
+     * This may be a relative or absolute path, depending on how the files are hosted.
+     * @param {function} fetch_range - A function that accepts `file` (a path to a file inside `path`), `start` and `end`.
+     * It should retrieve bytes from `file` in the interval `[start, end)` and return a Uint8Array containing those bytes.
+     * It may also return a promise that resolves to such a Uint8Array.
+     */
+    constructor(summary, path, fetch_range) {
+        this.#summary = summary;
+        this.#path = path + "/content";
+        this.#fetch = fetch_range;
+        this.#bytes = computeByteRanges(this.#summary.columns.bytes);
+    }
+
+    /**
+     * @return {boolean} Whether this DataFrame has row names.
+     */
+    hasRowNames() {
+        return this.#summary.has_row_names;
+    }
+
+    /**
+     * @return {number} Number of rows.
+     */
+    numberOfRows() {
+        return this.#summary.row_count;
+    }
+
+    /**
+     * @return {number} Number of columns.
+     */
+    numberOfColumns() {
+        return this.#summary.columns.names.length;
+    }
+
+    /**
+     * @return {?Array} Names of the rows, or `null` if there are no row names.
+     */
+    async rowNames() {
+        if (!this.hasRowNames()) {
+            return null;
+        }
+
+        let ncol = this.numberOfColumns();
+        let payload = await this.#fetch(this.#path, this.#bytes[ncol], this.#bytes[ncol + 1]);
+        return dec.decodeStrings(payload);
+    }
+
+    /**
+     * @param {object} [options={}] - Further options.
+     * @param {boolean} [options.types=false] - Whether to include the types of the columns.
+     * @return {Array} Names of the columns.
+     * If `types = true`, each entry is an object specifying the `name` and `type` of the column;
+     * otherwise, each entry is a string.
+     */
+    columnNames(options = {}) {
+        const { types = false, ...others } = options;
+        for (const key of Object.keys(others)) {
+            throw new Error("unknown option '" + key + "'");
+        }
+
+        let curnames = this.#summary.columns.names;
+        if (!types) {
+            return curnames;
+        }
+
+        let curtypes = this.#summary.columns.types;
+        let output = new Array(curnames.length);
+        for (var i = 0; i &lt; curnames.length; i++) {
+            output[i] = { name: curnames[i], type: curtypes[i] };
+        }
+        return output;
+    }
+
+    /**
+     * @param {number|string} i - Index or name of the column to retrieve.
+     * @param {object} [options={}] - Further options.
+     * @param {boolean} [options.type=false] - Whether to include the type of the column.
+     * @param {string} [options.missing="null"] - How to handle missing values for integer arrays, see the corresponding option in {@linkcode decodeIntegers}.
+     * @return {object|Array|Int32Array|Float64Array} If `type = false`, an array containing the contents of column `i`.
+     * If `type = true`, this is instead an object containing `type`, a string with the column type; and `value`, an array with the column contents.
+     */
+    async column(i, options = {}) {
+        if (typeof i === "string") {
+            i = this.#summary.columns.names.indexOf(i);
+            if (i === -1) {
+                throw new Error("could not find column named '" + i + "'");
+            }
+        }
+
+        const { missing = "null", type = false, ...others } = options;
+        for (const key of Object.keys(others)) {
+            throw new Error("unknown option '" + key + "'");
+        }
+
+        let payload = await this.#fetch(this.#path, this.#bytes[i], this.#bytes[i + 1]);
+        let curtype = this.#summary.columns.types[i];
+        let output = await dec.decode(payload, curtype, this.#summary.byte_order, { missing });
+
+        if (type) {
+            return { type: curtype, value: output };
+        } else {
+            return output;
+        }
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Tue Dec 03 2024 17:28:33 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

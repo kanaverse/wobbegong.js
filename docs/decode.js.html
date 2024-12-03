@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>decode.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/kanaverse/wobbegong.js" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Classes</h3><ul><li><a href="DataFrame.html">DataFrame</a><ul class='methods'><li data-type='method' style='display: none;'><a href="DataFrame.html#column">column</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#columnNames">columnNames</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#hasRowNames">hasRowNames</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#rowNames">rowNames</a></li></ul></li><li><a href="Matrix.html">Matrix</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Matrix.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#row">row</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#sparse">sparse</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#statistic">statistic</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#statisticNames">statisticNames</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#type">type</a></li></ul></li><li><a href="ReducedDimensionResult.html">ReducedDimensionResult</a><ul class='methods'><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#column">column</a></li><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#type">type</a></li></ul></li><li><a href="SummarizedExperiment.html">SummarizedExperiment</a><ul class='methods'><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#assay">assay</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#assayNames">assayNames</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#columnData">columnData</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#hasColumnData">hasColumnData</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#hasReducedDimension">hasReducedDimension</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#hasRowData">hasRowData</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#reducedDimension">reducedDimension</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#reducedDimensionNames">reducedDimensionNames</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#rowData">rowData</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#decode">decode</a></li><li><a href="global.html#decodeBooleans">decodeBooleans</a></li><li><a href="global.html#decodeDeltaIndices">decodeDeltaIndices</a></li><li><a href="global.html#decodeDoubles">decodeDoubles</a></li><li><a href="global.html#decodeIntegers">decodeIntegers</a></li><li><a href="global.html#decodeStrings">decodeStrings</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">decode.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { decompress } from "./decompress.js";
+import { convertByteOrder } from "./convertByteOrder.js";
+
+/**
+ * Decode 32-bit integers from a DEFLATE-compressed byte range.
+ * 
+ * @param {Uint8Array} x - A DEFLATE-compressed byte range containing 32-bit integers.
+ * @param {string} order - The byte order of the (decompressed) values in `x`, either `little_endian` or `big_endian`, 
+ * @param {object} [options={}] - Additional options.
+ * @param {string} [options.missing="null"] - How to treat missing values, represented by the lowest integer (-2147483648).
+ * The default value of `null` will convert these to `null`s in an ordinary Array.
+ * Setting this to `nan` will convert them to NaN values in a Float64Array.
+ * Setting this to `raw` will leave them as -2147483648.
+ *
+ * @return {Int32Array|Array|Float64Array} Array of decoded integers.
+ * This is an Int32Array if `missing="raw"` or if there are no missing values;
+ * otherwise it is either an ordinary Array or a Float64Array, depending on the choice of `missing`.
+ */
+export async function decodeIntegers(x, order, options = {}) {
+    const { missing = "null", ...others } = options;
+    for (const key of Object.keys(others)) {
+        throw new Error("unknown option '" + key + "'");
+    }
+
+    let out = await decompress(x);
+    convertByteOrder(out, order, 4);
+    let res = new Int32Array(out.buffer);
+    if (missing == "raw") {
+        return res;
+    }
+
+    // Check if any are missing.
+    const missingness = -2147483648;
+    if (!res.some(x => x == missingness)) {
+        return res;
+    }
+
+    if (missing == "null") {
+        let full = Array.from(res);
+        for (var i = 0; i &lt; full.length; i++) {
+            if (full[i] == missingness) {
+                full[i] = null;
+            }
+        }
+        return full;
+    }
+
+    if (missing == "nan") {
+        let casted = new Float64Array(res);
+        for (var i = 0; i &lt; casted.length; i++) {
+            if (casted[i] == missingness) {
+                casted[i] = Number.NaN;
+            }
+        }
+        return casted;
+    }
+
+    throw new Error("unsupported value for the 'missing' argument (" + missing + ")");
+}
+
+/**
+ * Decode delta-encoded indices from a DEFLATE-compressed byte range.
+ * 
+ * @param {Uint8Array} x - A DEFLATE-compressed byte range containing delta-encoded indices.
+ * @param {string} order - The byte order of the (decompressed) values in `x`, either `little_endian` or `big_endian`, 
+ *
+ * @return {Int32Array} Array of decoded indices.
+ */
+export async function decodeDeltaIndices(x, order) {
+    let dec = await decodeIntegers(x, order, { missing: "raw" }); // shouldn't be any missing integers anyway.
+    for (var i = 1; i &lt; dec.length; i++) {
+        dec[i] += dec[i-1];
+    }
+    return dec;
+}
+
+/**
+ * Decode double-precision floating-point values from a DEFLATE-compressed byte range.
+ * 
+ * @param {Uint8Array} x - A DEFLATE-compressed byte range containing doubles.
+ * @param {string} order - The byte order of the (decompressed) values in `x`, either `little_endian` or `big_endian`, 
+ *
+ * @return {Float64Array} Array of decoded doubles.
+ */
+export async function decodeDoubles(x, order) {
+    let out = await decompress(x);
+    convertByteOrder(out, order, 8);
+    return new Float64Array(out.buffer);
+}
+
+/**
+ * Decode booleans from a DEFLATE-compressed byte range.
+ * 
+ * @param {Uint8Array} x - A DEFLATE-compressed byte range containing booleans.
+ *
+ * @return {Array} Array of booleans.
+ * Missing values are represented as `null`.
+ */
+export async function decodeBooleans(x) {
+    let out = await decompress(x);
+    let data = Array.from(out);
+    for (const [i, v] of Object.entries(data)) {
+        switch (v) {
+            case 0: case 1:
+                data[i] = (v != 0);
+                break;
+            default:
+                data[i] = null;
+        }
+    }
+    return data;
+}
+
+/**
+ * Decode strings from a DEFLATE-compressed byte range.
+ * 
+ * @param {Uint8Array} x - A DEFLATE-compressed byte range containing strings.
+ *
+ * @return {Array} Array of strings.
+ * Missing values are represented as `null`.
+ */
+export async function decodeStrings(x) {
+    let out = await decompress(x);
+    let last = 0;
+    let data = [];
+    const dec = new TextDecoder;
+    for (let i = 0; i &lt; out.length; i++) {
+        if (out[i] == 0) {
+            const view = out.subarray(last, i);
+            let curstr = dec.decode(view);
+            if (curstr == "�") {
+                curstr = null;
+            }
+            data.push(curstr);
+            last = i + 1;
+        }
+    }
+    return data;
+}
+
+/**
+ * Decode an array from a DEFLATE-compressed byte range.
+ * 
+ * @param {Uint8Array} x - A DEFLATE-compressed byte range containing an array.
+ * @param {string} type - Type of the array, either `integer`, `double`, `boolean` or `string`.
+ * @param {string} order - The byte order of the (decompressed) values in `x`, either `little_endian` or `big_endian`, 
+ * @param {object} [options={}] - Additional options.
+ * @param {string} [options.missing="null"] - How to treat missing values in integer arrays, see {@linkcode decodeIntegers}.
+ *
+ * @return {Int32Array|Array|Float64Array} An array of values of the specified `type`.
+ * See {@linkcode decodeStrings}, {@linkcode decodeBooleans}, {@linkcode decodeIntegers} or {@linkcode decodeDoubles} for more details.
+ */
+export async function decode(x, type, order, options = {}) {
+    const { missing = "nulltype", ...others } = options;
+    for (const key of Object.keys(others)) {
+        throw new Error("unknown option '" + key + "'");
+    }
+
+    if (type == "string") {
+        return decodeStrings(x);
+    } else if (type == "boolean") {
+        return decodeBooleans(x);
+    } else if (type == "double") {
+        return decodeDoubles(x, order);
+    } else if (type == "integer") {
+        return decodeIntegers(x, order, { missing });
+    }
+
+    throw new Error("unknown column type '" + type + "'");
+}
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Tue Dec 03 2024 17:28:33 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

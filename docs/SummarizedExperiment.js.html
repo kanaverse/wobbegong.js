@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>SummarizedExperiment.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/kanaverse/wobbegong.js" target="_blank" class="menu-item" id="repository" >Github repo</a></h2><h3>Classes</h3><ul><li><a href="DataFrame.html">DataFrame</a><ul class='methods'><li data-type='method' style='display: none;'><a href="DataFrame.html#column">column</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#columnNames">columnNames</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#hasRowNames">hasRowNames</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="DataFrame.html#rowNames">rowNames</a></li></ul></li><li><a href="Matrix.html">Matrix</a><ul class='methods'><li data-type='method' style='display: none;'><a href="Matrix.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#row">row</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#sparse">sparse</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#statistic">statistic</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#statisticNames">statisticNames</a></li><li data-type='method' style='display: none;'><a href="Matrix.html#type">type</a></li></ul></li><li><a href="ReducedDimensionResult.html">ReducedDimensionResult</a><ul class='methods'><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#column">column</a></li><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="ReducedDimensionResult.html#type">type</a></li></ul></li><li><a href="SummarizedExperiment.html">SummarizedExperiment</a><ul class='methods'><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#assay">assay</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#assayNames">assayNames</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#columnData">columnData</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#hasColumnData">hasColumnData</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#hasReducedDimension">hasReducedDimension</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#hasRowData">hasRowData</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#numberOfColumns">numberOfColumns</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#numberOfRows">numberOfRows</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#reducedDimension">reducedDimension</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#reducedDimensionNames">reducedDimensionNames</a></li><li data-type='method' style='display: none;'><a href="SummarizedExperiment.html#rowData">rowData</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#decode">decode</a></li><li><a href="global.html#decodeBooleans">decodeBooleans</a></li><li><a href="global.html#decodeDeltaIndices">decodeDeltaIndices</a></li><li><a href="global.html#decodeDoubles">decodeDoubles</a></li><li><a href="global.html#decodeIntegers">decodeIntegers</a></li><li><a href="global.html#decodeStrings">decodeStrings</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">SummarizedExperiment.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { Matrix } from "./Matrix.js";
+import { DataFrame } from "./DataFrame.js";
+import { ReducedDimensionResult } from "./ReducedDimensionResult.js";
+
+/**
+ * An interface to the **wobbegong** representation of a SummarizedExperiment instance.
+ */
+export class SummarizedExperiment {
+    #summary;
+    #path;
+    #fetch_json;
+    #fetch_range;
+
+    /**
+     * @param {object} summary - A summary of the SummarizedExperiment contents, according to the **wobbegong** specifications.
+     * @param {string} path - Path to the SummarizedExperiment directory.
+     * This may be a relative or absolute path, depending on how the files are hosted.
+     * @param {function} fetch_json - A function that accepts `path`, a path to a file inside `path`.
+     * It should retrieve the contents of `path` and load them as a JSON object.
+     * It may also return a promise that resolves to such an object.
+     * @param {function} fetch_range - A function that accepts `file` (a path to a file inside `path`), `start` and `end`.
+     * It should retrieve bytes from `path` in the interval `[start, end)` and return a Uint8Array containing those bytes.
+     * It may also return a promise that resolves to such a Uint8Array.
+     */
+    constructor(summary, path, fetch_json, fetch_range) {
+        this.#summary = summary;
+        this.#path = path;
+        this.#fetch_json = fetch_json;
+        this.#fetch_range = fetch_range;
+    }
+
+    /**
+     * @return {number} Number of rows.
+     */
+    numberOfRows() {
+        return this.#summary.row_count;
+    }
+
+    /**
+     * @return {number} Number of columns.
+     */
+    numberOfColumns() {
+        return this.#summary.column_count;
+    }
+
+    /**
+     * @return {boolean} Whether row data is available.
+     */
+    hasRowData() {
+        return this.#summary.has_row_data;
+    }
+
+    /**
+     * @return {boolean} Whether column data is available.
+     */
+    hasColumnData() {
+        return this.#summary.has_column_data;
+    }
+
+    /**
+     * @return {?DataFrame} A {@link DataFrame} instance representing the row data,
+     * or `null` if {@linkcode SummarizedExperiment#hasRowData hasRowData} is false.
+     */
+    async rowData() {
+        if (!this.hasRowData()) {
+            return null;
+        }
+        let path = this.#path + "/row_data";
+        const summary = await this.#fetch_json(path + "/summary.json");
+        return new DataFrame(summary, this.#path + "/row_data", this.#fetch_range);
+    }
+
+    /**
+     * @return {?DataFrame} A {@link DataFrame} instance representing the column data,
+     * or `null` if {@linkcode SummarizedExperiment#hasColumnData hasColumnData} is false.
+     */
+    async columnData() {
+        if (!this.hasColumnData()) {
+            return null;
+        }
+        let path = this.#path + "/column_data";
+        const summary = await this.#fetch_json(path + "/summary.json");
+        return new DataFrame(summary, path, this.#fetch_range);
+    }
+
+    /**
+     * @return {Array} Names of the assays.
+     */
+    assayNames() {
+        return this.#summary.assay_names;
+    }
+
+    /**
+     * @param {number|string} i - Index or name of the assay to retrieve.
+     * @return {Matrix} A {@link Matrix} instance representing the assay matrix for `i`.
+     */
+    async assay(i) {
+        if (typeof i === "string") {
+            i = this.#summary.assay_names.indexOf(i);
+            if (i === -1) {
+                throw new Error("could not find assay named '" + i + "'");
+            }
+        }
+        let path = this.#path + "/assays/" + String(i); 
+        const summary = await this.#fetch_json(path + "/summary.json");
+        return new Matrix(summary, path, this.#fetch_range);
+    }
+
+    /**
+     * @return {boolean} Whether reduced dimensions are available. 
+     */
+    hasReducedDimension() {
+        return "reduced_dimension_names" in this.#summary;
+    }
+
+    /**
+     * @return {?Array} Names of the reduced dimensions.
+     * Alternatively `null`, if no reduced dimensions are available.
+     */
+    reducedDimensionNames() {
+        if (!this.hasReducedDimension()) {
+            return null;
+        }
+        return this.#summary.reduced_dimension_names;
+    }
+
+    /**
+     * @param {number|string} i - Index or name of the reduced dimension result to retrieve.
+     * @return {?ReducedDimensionResult} A {@link ReducedDimensionResult} instance representing the reduced dimension result for `i`,
+     * or `null` if no reduced dimensions are avilable.
+     */
+    async reducedDimension(i) {
+        if (!this.hasReducedDimension()) {
+            return null;
+        }
+        let path = this.#path + "/reduced_dimensions/" + String(i); 
+        const summary = await this.#fetch_json(path + "/summary.json");
+        return new ReducedDimensionResult(summary, path, this.#fetch_range);
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Tue Dec 03 2024 17:28:33 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>
