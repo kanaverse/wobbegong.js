@@ -1,0 +1,89 @@
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+name: Run unit tests
+
+jobs:
+  create_mock:
+    runs-on: ubuntu-latest
+    container: bioconductor/bioconductor_docker:devel
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Cache RDS files
+        id: cache-mock
+        uses: actions/cache@v4
+        with:
+          path: tests/mock-files
+          key: mock-${{ hashFiles('tests/mock.R') }}
+
+      - name: Set directories
+        if: steps.cache-mock.outputs.cache-hit != 'true'
+        run: |
+          echo "R_PKG_DIR=${R_HOME}/site-library" >> $GITHUB_ENV
+
+      - name: Restore the package directory
+        if: steps.cache-mock.outputs.cache-hit != 'true'
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.R_PKG_DIR }}
+          key: check-packages
+
+      - name: Clone the wobbegong R package
+        if: steps.cache-mock.outputs.cache-hit != 'true'
+        run: git clone https://github.com/kanaverse/wobbegong-R rpkg
+
+      - name: Install dependencies
+        if: steps.cache-mock.outputs.cache-hit != 'true'
+        shell: Rscript {0}
+        run: |
+          stuff <- read.dcf("rpkg/DESCRIPTION")
+          stuff <- stuff[,intersect(colnames(stuff), c("Imports", "LinkingTo", "Suggests", "Depends"))]
+          deps <- sub(" .*", "", unlist(strsplit(stuff, ",\\s*"), use.names=FALSE))
+          BiocManager::install(deps)
+
+      - name: Install the R package
+        if: steps.cache-mock.outputs.cache-hit != 'true'
+        run: R CMD INSTALL rpkg
+
+      - name: Build the mock files
+        if: steps.cache-mock.outputs.cache-hit != 'true'
+        run: |
+          cd tests
+          R -f mock.R
+
+  test:
+    runs-on: ubuntu-latest
+    needs: [ create_mock ]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Cache Modules
+        uses: actions/cache@v4
+        with:
+          path: '**/node_modules'
+          key: npm-${{ hashFiles('package.json') }}
+
+      - name: Update NPM packages
+        run: npm i --include=dev
+
+      - name: Cache mock files
+        uses: actions/cache@v4
+        with:
+          path: tests/mock-files
+          key: mock-${{ hashFiles('tests/mock.R') }}
+
+      - name: Run tests
+        run: npm run test

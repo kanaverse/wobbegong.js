@@ -1,0 +1,72 @@
+on:
+  workflow_run:
+    workflows: [Run unit tests]
+    types: [completed]
+    branches: [master]
+
+name: Build and publish to NPM 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+
+    # We only run the remaining (remote-touching) steps if the version has actually changed.
+    - name: Extract package versions
+      shell: bash
+      run: |
+        current_version=$(npm pkg get version | sed 's/"//g')
+        echo "NEW_WOBBEGONG_VERSION=${current_version}" >> $GITHUB_ENV
+        old_version=$(npm view wobbegong version)
+        update=0 && [[ $old_version != $current_version ]] && update=1
+        echo "UPDATE_WOBBEGONG=${update}" >> $GITHUB_ENV
+        echo "Current version is ${current_version} (published ${old_version})"
+
+    - name: Cache Modules
+      if: env.UPDATE_WOBBEGONG == 1
+      uses: actions/cache@v4
+      with:
+        path: '**/node_modules'
+        key: npm-${{ hashFiles('package.json') }}
+
+    - name: Update NPM packages
+      if: env.UPDATE_WOBBEGONG == 1
+      run: npm i --include=dev
+
+    - name: Cache mock files
+      if: env.UPDATE_WOBBEGONG == 1
+      uses: actions/cache@v4
+      with:
+        path: tests/mock-files
+        key: mock-${{ hashFiles('tests/mock.R') }}
+
+    - name: Double-checking tests
+      if: env.UPDATE_WOBBEGONG == 1
+      run: npm run test
+
+    - name: Publish to NPM
+      if: env.UPDATE_WOBBEGONG == 1
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+    - name: Tagging the release
+      if: env.UPDATE_WOBBEGONG == 1
+      uses: actions/github-script@v5
+      with:
+        script: |
+          github.rest.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: 'refs/tags/' + process.env.NEW_WOBBEGONG_VERSION,
+            sha: context.sha
+          })
