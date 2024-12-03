@@ -3,3 +3,4 @@ tests/mock-files/*
 package-lock.json
 node_modules/
 docs/built
+.npmrc

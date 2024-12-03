@@ -165,3 +165,9 @@ Each column can then be extracted for visualization.
 const tsne_x = await tsne.column(0);
 const tsne_y = await tsne.column(1);
 ```
+
+## More reading
+
+Check out the [reference documentation](https://kanaverse.github.io/wobbegong.js) for more details on each class and method.
+
+Use the [R package](https://github.com/kanaverse/wobbegong-R) to generate **wobbegong**-formatted files from a SummarizedExperiment.
