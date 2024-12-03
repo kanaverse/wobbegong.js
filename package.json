@@ -20,11 +20,11 @@
     },
     "scripts": {
         "test": "NODE_OPTIONS='--experimental-vm-modules' npx jest",
-        "jsdoc": "npx jsdoc js README.md -d docs/built -c docs/jsdoc.config.json"
+        "jsdoc": "npx jsdoc src README.md -d docs/built -c docs/jsdoc.config.json"
     },
     "devDependencies": {
-        "docdash": "^1.2.0",
-        "jsdoc": "^3.6.11",
-        "jest": "^29.7.0"
+        "docdash": "^2.0.2",
+        "jest": "^29.7.0",
+        "jsdoc": "^4.0.4"
     }
 }

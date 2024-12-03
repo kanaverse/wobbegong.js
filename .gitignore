@@ -2,3 +2,4 @@ tests/mock-files/*
 *.swp
 package-lock.json
 node_modules/
+docs/built
