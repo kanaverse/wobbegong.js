@@ -4,7 +4,7 @@
     "name": "wobbegong",
     "description": "Retrieving parts of a SummarizedExperiment via HTTP range requests.",
     "license": "MIT",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "keywords": [
         "single-cell",
         "scRNA-seq",
