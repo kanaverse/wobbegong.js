@@ -5,7 +5,7 @@ import * as p from "path";
 import * as u from "url";
 
 test("SummarizedExperiment works as expected", async () => {
-    const path = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-sce");
+    const path = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-files", "full");
     const summary = JSON.parse(fs.readFileSync(p.join(path, "summary.json")));
     const my_se = new se.SummarizedExperiment(summary, path, localFetchJson, localFetchRange);
 
@@ -52,7 +52,7 @@ test("SummarizedExperiment works as expected", async () => {
 })
 
 test("SummarizedExperiment works without any details", async () => {
-    const path = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-simple");
+    const path = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-files", "simple");
     const summary = JSON.parse(fs.readFileSync(p.join(path, "summary.json")));
     const my_se = new se.SummarizedExperiment(summary, path, localFetchJson, localFetchRange);
 

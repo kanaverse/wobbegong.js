@@ -5,7 +5,7 @@ import * as p from "path";
 import * as u from "url";
 
 test("DataFrame works as expected", async () => {
-    const colpath = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-sce", "column_data");
+    const colpath = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-files", "full", "column_data");
     const summary = JSON.parse(fs.readFileSync(p.join(colpath, "summary.json")));
     const my_df = new df.DataFrame(summary, colpath, localFetchRange);
 
@@ -47,7 +47,7 @@ test("DataFrame works as expected", async () => {
 })
 
 test("DataFrame works as expected with rownames", async () => {
-    const rowpath = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-sce", "row_data");
+    const rowpath = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-files", "full", "row_data");
     const summary = JSON.parse(fs.readFileSync(p.join(rowpath, "summary.json")));
     const my_df = new df.DataFrame(summary, rowpath, localFetchRange);
 

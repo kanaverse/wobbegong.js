@@ -5,7 +5,7 @@ import * as p from "path";
 import * as u from "url";
 
 test("ReducedDimensionResult works as expected", async () => {
-    const path = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-sce", "reduced_dimensions", "0");
+    const path = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-files", "full", "reduced_dimensions", "0");
     const summary = JSON.parse(fs.readFileSync(p.join(path, "summary.json")));
     const my_rd = new rd.ReducedDimensionResult(summary, path, localFetchRange);
 
@@ -27,7 +27,7 @@ test("ReducedDimensionResult works as expected", async () => {
 })
 
 test("ReducedDimensionResult works with integers", async () => {
-    const path = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-sce", "reduced_dimensions", "1");
+    const path = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-files", "full", "reduced_dimensions", "1");
     const summary = JSON.parse(fs.readFileSync(p.join(path, "summary.json")));
     const my_rd = new rd.ReducedDimensionResult(summary, path, localFetchRange);
 

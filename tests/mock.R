@@ -1,5 +1,8 @@
 # Script to mock up some objects of interest.
 
+dir <- "mock-files"
+dir.create(dir, showWarnings=FALSE)
+
 library(SingleCellExperiment)
 sce <- SingleCellExperiment(list(counts=matrix(rpois(1000, lambda=10), ncol=20), logcounts=matrix(rnorm(1000), ncol=20), other=Matrix::rsparsematrix(50, 20, 0.3)))
 
@@ -19,17 +22,19 @@ reducedDim(sce, "TSNE") <- matrix(rnorm(ncol(sce) * 4), nrow=ncol(sce))
 reducedDim(sce, "UMAP") <- matrix(rpois(ncol(sce) * 2, lambda=10), nrow=ncol(sce))
 
 library(wobbegong)
-path <- "mock-sce"
-unlink(path, recursive=TRUE)
-wobbegongify(sce, path)
+local({
+    path <- file.path(dir, "full")
+    unlink(path, recursive=TRUE)
+    wobbegongify(sce, path)
+})
 
-{
+local({
     simple <- as(sce, "SummarizedExperiment")
     dimnames(simple) <- list(NULL, NULL)
     rowData(simple) <- rowData(simple)[,0]
     colData(simple) <- colData(simple)[,0]
 
-    path <- "mock-simple"
+    path <- file.path(dir, "simple")
     unlink(path, recursive=TRUE)
     wobbegongify(simple, path)
-}
+})

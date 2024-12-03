@@ -5,7 +5,7 @@ import * as p from "path";
 import * as u from "url";
 
 test("Matrix works as expected for dense matrices", async () => {
-    const path = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-sce", "assays", "0");
+    const path = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-files", "full", "assays", "0");
     const summary = JSON.parse(fs.readFileSync(p.join(path, "summary.json")));
     const my_mat = new mat.Matrix(summary, path, localFetchRange);
 
@@ -47,7 +47,7 @@ test("Matrix works as expected for dense matrices", async () => {
 })
 
 test("Matrix works as expected for sparse matrices", async () => {
-    const path = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-sce", "assays", "2");
+    const path = p.join(p.dirname(u.fileURLToPath(import.meta.url)), "mock-files", "full", "assays", "2");
     const summary = JSON.parse(fs.readFileSync(p.join(path, "summary.json")));
     const my_mat = new mat.Matrix(summary, path, localFetchRange);
 
