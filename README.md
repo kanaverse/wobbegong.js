@@ -48,13 +48,11 @@ const fetch_range = async (path, start, end) => {
 };
 ```
 
-Once that's done, we use the **wobbegong.js** library to set up our interface to the SummarizedExperiment:
+Once that's done, we use the **wobbegong.js** library to load the interface to the SummarizedExperiment:
 
 ```js
 import * as wob from "wobbegong";
-const se_summary = await fetch_json("my_dataset/summary.json");
-const se = new wob.SummarizedExperiment(se_summary, "my_dataset", fetch_json, fetch_range)
-
+const se = await wob.load("my_dataset", fetch_json, fetch_range);
 se.numberOfRows();
 se.numberOfColumns();
 se.isSingleCellExperiment();
