@@ -43,7 +43,7 @@ const fetch_range = async (path, start, end) => {
     if (!res.ok) {
         throw new Error("oops, failed to retrieve range from '" + path + "' (" + String(res.status) + ")");
     }
-    let output = await res.bytes();
+    let output = new Uint8Array(await res.arrayBuffer());
     return output.slice(0, end - start); // trim off any excess junk
 };
 ```
