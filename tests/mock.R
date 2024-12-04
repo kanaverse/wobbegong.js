@@ -21,6 +21,9 @@ sce$gunk[4] <- NA
 reducedDim(sce, "TSNE") <- matrix(rnorm(ncol(sce) * 4), nrow=ncol(sce))
 reducedDim(sce, "UMAP") <- matrix(rpois(ncol(sce) * 2, lambda=10), nrow=ncol(sce))
 
+adt.se <- SummarizedExperiment(list(counts=as(matrix(rpois(60, lambda=0.5), ncol=20), "SVT_SparseMatrix")))
+altExp(sce, "ADT", withDimnames=FALSE) <- adt.se
+
 library(wobbegong)
 local({
     path <- file.path(dir, "full")

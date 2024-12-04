@@ -92,7 +92,7 @@ export class SummarizedExperiment {
 
     /**
      * @param {number|string} i - Index or name of the assay to retrieve.
-     * @return {Matrix} A {@link Matrix} instance representing the assay matrix for `i`.
+     * @return {Matrix} A {@link Matrix} instance representing the assay matrix `i`.
      */
     async assay(i) {
         if (typeof i === "string") {
@@ -107,18 +107,18 @@ export class SummarizedExperiment {
     }
 
     /**
-     * @return {boolean} Whether reduced dimensions are available. 
+     * @return {boolean} Whether the underlying object is a SingleCellExperiment.
      */
-    hasReducedDimension() {
-        return "reduced_dimension_names" in this.#summary;
+    isSingleCellExperiment() {
+        return this.#summary.object == "single_cell_experiment";
     }
 
     /**
      * @return {?Array} Names of the reduced dimensions.
-     * Alternatively `null`, if no reduced dimensions are available.
+     * Alternatively `null` if {@linkcode SummarizedExperiment#isSingleCellExperiment isSingleCellExperiment} is false.
      */
     reducedDimensionNames() {
-        if (!this.hasReducedDimension()) {
+        if (!this.isSingleCellExperiment()) {
             return null;
         }
         return this.#summary.reduced_dimension_names;
@@ -126,15 +126,52 @@ export class SummarizedExperiment {
 
     /**
      * @param {number|string} i - Index or name of the reduced dimension result to retrieve.
-     * @return {?ReducedDimensionResult} A {@link ReducedDimensionResult} instance representing the reduced dimension result for `i`,
-     * or `null` if no reduced dimensions are avilable.
+     * @return {?ReducedDimensionResult} A {@link ReducedDimensionResult} instance representing the reduced dimension result `i`,
+     * or `null` if {@linkcode SummarizedExperiment#isSingleCellExperiment isSingleCellExperiment} is false.
      */
     async reducedDimension(i) {
-        if (!this.hasReducedDimension()) {
+        if (!this.isSingleCellExperiment()) {
             return null;
+        }
+        if (typeof i === "string") {
+            i = this.#summary.reduced_dimension_names.indexOf(i);
+            if (i === -1) {
+                throw new Error("could not find reduced dimension result named '" + i + "'");
+            }
         }
         let path = this.#path + "/reduced_dimensions/" + String(i); 
         const summary = await this.#fetch_json(path + "/summary.json");
         return new ReducedDimensionResult(summary, path, this.#fetch_range);
+    }
+
+    /**
+     * @return {?Array} Names of the alternative experiments.
+     * Alternatively `null` if {@linkcode SummarizedExperiment#isSingleCellExperiment isSingleCellExperiment} is false.
+     */
+    alternativeExperimentNames() {
+        if (!this.isSingleCellExperiment()) {
+            return null;
+        }
+        return this.#summary.alternative_experiment_names;
+    }
+
+    /**
+     * @param {number|string} i - Index or name of the alternative experiment to retrieve.
+     * @return {?SummarizedExperiment} A {@link SummarizedExperiment} instance representing the alternative experiment `i`,
+     * or `null` if {@linkcode SummarizedExperiment#isSingleCellExperiment isSingleCellExperiment} is false.
+     */
+    async alternativeExperiment(i) {
+        if (!this.isSingleCellExperiment()) {
+            return null;
+        }
+        if (typeof i === "string") {
+            i = this.#summary.alternative_experiment_names.indexOf(i);
+            if (i === -1) {
+                throw new Error("could not find alternative experiment named '" + i + "'");
+            }
+        }
+        let path = this.#path + "/alternative_experiments/" + String(i); 
+        const summary = await this.#fetch_json(path + "/summary.json");
+        return new SummarizedExperiment(summary, path, this.#fetch_json, this.#fetch_range);
     }
 }

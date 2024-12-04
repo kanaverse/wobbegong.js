@@ -54,8 +54,10 @@ Once that's done, we use the **wobbegong.js** library to set up our interface to
 import * as wob from "wobbegong";
 const se_summary = await fetch_json("my_dataset/summary.json");
 const se = new wob.SummarizedExperiment(se_summary, "my_dataset", fetch_json, fetch_range)
+
 se.numberOfRows();
 se.numberOfColumns();
+se.isSingleCellExperiment();
 ```
 
 ## Retrieving row/column data
@@ -138,7 +140,7 @@ const colsums = await log_assay.statistic("column_sum");
 
 ## Retrieving reduced dimensions
 
-As with the assays, we can check the available reduced dimension results in the SummarizedExperiment:
+For SingleCellExperiments, we can check the available reduced dimension results: 
 
 ```js
 se.reducedDimensionNames();
@@ -164,6 +166,30 @@ Each column can then be extracted for visualization.
 ```js
 const tsne_x = await tsne.column(0);
 const tsne_y = await tsne.column(1);
+```
+
+## Retrieving alternative experiments
+
+For SingleCellExperiments, we can check the available alternative experiments: 
+
+```js
+se.alternativeExperimentNames();
+```
+
+And then retrieve each alternative experiment by name or index:
+
+```js
+const first_ae = await se.alternativeExperiment(0);
+const adt_ae = await se.alternativeExperiment('ADT');
+```
+
+Each one of these is just another `SummarizedExperiment` instance,
+so all of the methods described above can be applied here.
+
+```js
+adt_ae.assayNames();
+adt_ae.numberOfRows();
+adt_ae.numberOfColumns();
 ```
 
 ## More reading
