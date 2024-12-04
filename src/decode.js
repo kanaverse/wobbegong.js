@@ -24,6 +24,9 @@ export async function decodeIntegers(x, order, options = {}) {
 
     let out = await decompress(x);
     convertByteOrder(out, order, 4);
+
+    // Javascript always uses 2's complement for Int32Arrays, see https://262.ecma-international.org/6.0/#sec-typedarray-objects,
+    // so we should be fine with just casting the bytes to a Int32Array.
     let res = new Int32Array(out.buffer);
     if (missing == "raw") {
         return res;
@@ -85,6 +88,9 @@ export async function decodeDeltaIndices(x, order) {
 export async function decodeDoubles(x, order) {
     let out = await decompress(x);
     convertByteOrder(out, order, 8);
+
+    // This should always use IEEE754, see https://262.ecma-international.org/6.0/#sec-typedarray-objects,
+    // so we should be fine with just reinterpreting the bytes as doubles.
     return new Float64Array(out.buffer);
 }
 
