@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>ReducedDimensionResult.js - Documentation</title>
+    <title>load.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">ReducedDimensionResult.js</h1>
+    <h1 class="page-title">load.js</h1>
     
 
     
@@ -47,68 +47,32 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import * as dec from "./decode.js";
-import { computeByteRanges } from "./computeByteRanges.js";
+            <pre class="prettyprint source linenums"><code>import { SummarizedExperiment } from "./SummarizedExperiment.js";
+import { DataFrame } from "./DataFrame.js";
 
 /**
- * An interface to the **wobbegong** representation of a reduced dimension result.
+ * Load an interface to a SummarizedExperiment or a DataFrame.
+ *
+ * @param {string} path - Path to a directory containing a SummarizedExperiment or DataFrame.
+ * This may be a relative or absolute path, depending on how the files are hosted.
+ * @param {function} fetch_json - A function that accepts `path`, a path to a file inside `path`.
+ * It should retrieve the contents of `path` and load them as a JSON object.
+ * It may also return a promise that resolves to such an object.
+ * @param {function} fetch_range - A function that accepts `file` (a path to a file inside `path`), `start` and `end`.
+ * It should retrieve bytes from `path` in the interval `[start, end)` and return a Uint8Array containing those bytes.
+ * It may also return a promise that resolves to such a Uint8Array.
+ *
+ * @return {DataFrame|SummarizedExperiment} Interface to a {@link DataFrame} or {@link SummarizedExperiment},
+ * depending on the object at `path`.
  */
-export class ReducedDimensionResult {
-    #summary;
-    #path;
-    #fetch;
-    #bytes;
-
-    /**
-     * @param {object} summary - A summary of the reduced dimension result's contents, according to the **wobbegong** specifications.
-     * @param {string} path - Path to the reduced dimension result's directory.
-     * This may be a relative or absolute path, depending on how the files are hosted.
-     * @param {function} fetch_range - A function that accepts `file` (a path to a file inside `path`), `start` and `end`.
-     * It should retrieve bytes from `file` in the interval `[start, end)` and return a Uint8Array containing those bytes.
-     * It may also return a promise that resolves to such a Uint8Array.
-     */
-    constructor(summary, path, fetch_range) {
-        this.#summary = summary;
-        this.#path = path + "/content";
-        this.#fetch = fetch_range;
-        this.#bytes = computeByteRanges(this.#summary.column_bytes);
+export async function load(path, load_json, load_range) {
+    const summary = await load_json(path + "/summary.json");
+    if (summary.object == "data_frame") {
+        return new DataFrame(summary, path, load_range);
+    } else if ([ "summarized_experiment", "single_cell_experiment"].indexOf(summary.object) >= 0) {
+        return new SummarizedExperiment(summary, path, load_json, load_range)
     }
-
-    /**
-     * @return {number} Number of rows.
-     */
-    numberOfRows() {
-        return this.#summary.row_count;
-    }
-
-    /**
-     * @return {number} Number of columns.
-     */
-    numberOfColumns() {
-        return this.#summary.column_bytes.length;
-    }
-
-    /**
-     * @return {string} Type of the matrix, typically either `boolean`, `integer` or `double`.
-     */
-    type() {
-        return this.#summary.type;
-    }
-
-    /**
-     * @param {number} i - Row index.
-     * @param {object} [options={}] - Further options.
-     * @param {string} [options.missing="null"] - How to handle missing values for integer arrays, see the corresponding option in {@linkcode decodeIntegers}.
-     * @return {Array|Int32Array|Float64Array} Array of length equal to the number of rows, containing the contents of column `i`.
-     */
-    async column(i, options={}) {
-        const { missing = "null", ...others } = options;
-        for (const key of Object.keys(others)) {
-            throw new Error("unknown option '" + key + "'");
-        }
-        let payload = await this.#fetch(this.#path, this.#bytes[i], this.#bytes[i + 1]);
-        return dec.decode(payload, this.type(), this.#summary.byte_order, { missing });
-    }
+    throw new Error("unknown object type '" + summary.object + "' at path '" + path + "'");
 }
 </code></pre>
         </article>
